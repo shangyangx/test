@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clothing Vocabulary Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #fdf6f9; color: #333; padding: 20px; }
+    .quiz-container { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #b83280; }
+    .question { font-size: 18px; margin-bottom: 15px; }
+    .options button { display: block; width: 100%; margin: 6px 0; padding: 10px; border: none; border-radius: 8px; background: #f3e8ff; cursor: pointer; transition: 0.3s; }
+    .options button:hover { background: #d6bcfa; }
+    .result { margin-top: 20px; font-weight: bold; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Clothing Vocabulary Quiz</h1>
+    <div class="question" id="question">Loading question...</div>
+    <div class="options" id="options"></div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Which Spanish dress has ruffles and flared sleeves?",
+        options: ["Kimono", "Flamenco dress", "Crinoline", "Shift dress"],
+        answer: "Flamenco dress"
+      },
+      {
+        question: "Which Scottish garment is worn with a sporran?",
+        options: ["Kilt", "Poncho", "Waistcoat", "Corset"],
+        answer: "Kilt"
+      },
+      {
+        question: "Which traditional Japanese garment has wide sleeves and a sash?",
+        options: ["Kimono", "Sari", "Poncho", "Corset"],
+        answer: "Kimono"
+      },
+      {
+        question: "Which outfit do astronauts wear?",
+        options: ["Rowing suit", "Space suit", "Dinner suit", "Elvis suit"],
+        answer: "Space suit"
+      },
+      {
+        question: "Which jacket is made of denim?",
+        options: ["Afghan coat", "Denim jacket", "Leather biker jacket", "Cardigan"],
+        answer: "Denim jacket"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const q = quizData[currentQuestion];
+      document.getElementById("question").innerText = q.question;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      q.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(opt);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const q = quizData[currentQuestion];
+      if (selected === q.answer) {
+        score++;
+        document.getElementById("result").innerText = "✅ Correct!";
+      } else {
+        document.getElementById("result").innerText = `❌ Wrong! Correct answer: ${q.answer}`;
+      }
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        setTimeout(() => {
+          document.getElementById("result").innerText = "";
+          loadQuestion();
+        }, 1200);
+      } else {
+        setTimeout(() => {
+          document.getElementById("quiz").innerHTML = "";
+          document.getElementById("question").innerText = `Quiz finished! You scored ${score} / ${quizData.length}`;
+          document.getElementById("options").innerHTML = "";
+          document.getElementById("result").innerText = "";
+        }, 1200);
+      }
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
